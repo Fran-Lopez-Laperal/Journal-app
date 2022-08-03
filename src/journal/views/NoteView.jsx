@@ -4,37 +4,43 @@ import { ImageGallery } from "../components/ImageGallery"
 
 export const NoteView = () => {
     return (
-        <Grid container direction='row' justifyContent='space-between' sx={{ mb: 1 }}>
+        <Grid
+            container
+            direction='row' j
+            ustifyContent='space-between'
+            sx={{ mb: 1 }}
+            className='animate__animated animate__fadeIn animate__faster'
+        >
             <Grid item>
                 <Typography fontSize={39} fontWeight='light'>28 de Agosto, 2023</Typography>
             </Grid>
             <Grid item>
-                <Button color='primary' sx={{padding: 2}} >
+                <Button color='primary' sx={{ padding: 2 }} >
                     <SaveOutlined sx={{ fontSize: 39, mr: 1 }} />
                     Guardar
                 </Button>
             </Grid>
             <Grid container>
                 <TextField
-                type='text'
-                variant='filled'
-                fullWidth
-                placeholder="Ingrese un título"
-                label='Título'
-                sx={{border: 'none', mb: 1}}
+                    type='text'
+                    variant='filled'
+                    fullWidth
+                    placeholder="Ingrese un título"
+                    label='Título'
+                    sx={{ border: 'none', mb: 1 }}
                 />
 
                 <TextField
-                type='text'
-                variant='filled'
-                fullWidth
-                multiline
-                placeholder="¿Qué sucedió hoy"
-                minRows={5}
+                    type='text'
+                    variant='filled'
+                    fullWidth
+                    multiline
+                    placeholder="¿Qué sucedió hoy"
+                    minRows={5}
                 />
             </Grid>
 
-            <ImageGallery/>
+            <ImageGallery />
 
         </Grid>
 

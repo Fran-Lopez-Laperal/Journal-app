@@ -2,7 +2,7 @@ import { AddOutlined } from '@mui/icons-material'
 import { IconButton } from '@mui/material'
 import { JournalLayout } from '../layout/JournalLayout'
 import { NoteView } from '../views'
-import { NothingSelectedView } from '../views/NothingSelectedView'
+// import { NothingSelectedView } from '../views/NothingSelectedView'
 
 export const JournalPages = () => {
   return (
