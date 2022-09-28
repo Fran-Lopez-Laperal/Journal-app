@@ -1,34 +1,47 @@
 import { AddOutlined } from '@mui/icons-material'
 import { IconButton } from '@mui/material'
+import { useDispatch, useSelector } from 'react-redux'
+import { startNewNote } from '../../store/journal'
 import { JournalLayout } from '../layout/JournalLayout'
-import { NoteView } from '../views'
-// import { NothingSelectedView } from '../views/NothingSelectedView'
+import { NoteView, NothingSelectedView } from '../views'
 
 export const JournalPages = () => {
+
+  const dispatch = useDispatch();
+  const { isSaving, activeNote } = useSelector(state => state.journal);
+
+  const onClickNewNote = () => {
+    dispatch(startNewNote())
+  }
+
   return (
     <>
       <JournalLayout>
 
-        {/* <Typography>Lorem ipsum dolor sit amet, consectetur adipisicing elit.
-          Dicta obcaecati, totam in quis pariatur repellendus eum assumenda,
-          sapiente aliquid reprehenderit numquam incidunt nulla, rerum suscipit
-          a voluptate dolores ex voluptatem.
-        </Typography> */}
-        {/* <NothingSelectedView/> */}
-        <NoteView/>
-        
+
+        {
+          //convertimos activeNote en un valor booleano porque es un objeto
+          (!!activeNote)
+
+            ? <NoteView />
+            : <NothingSelectedView />
+        }
+
+
         <IconButton
-        size='large'
-        sx={{
-          color:'white', 
-          backgroundColor:'error.main',
-          ':hover': {backgroundColor:'error.main', opacity:0.9},
-          position: 'fixed',
-          right: 50,
-          bottom: 50
-        }}
+          onClick={onClickNewNote}
+          size='large'
+          disabled={isSaving}
+          sx={{
+            color: 'white',
+            backgroundColor: 'error.main',
+            ':hover': { backgroundColor: 'error.main', opacity: 0.9 },
+            position: 'fixed',
+            right: 50,
+            bottom: 50
+          }}
         >
-      <AddOutlined  sx={{fontSize:30}}  />
+          <AddOutlined sx={{ fontSize: 30 }} />
         </IconButton>
 
       </JournalLayout>
