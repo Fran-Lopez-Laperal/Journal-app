@@ -1,40 +1,69 @@
-import { SaveOutlined } from "@mui/icons-material"
-import { Button, Grid, TextField, Typography } from "@mui/material"
-import { display } from "@mui/system"
+import { DeleteOutline, SaveOutlined, UploadOutlined } from "@mui/icons-material"
+import { Button, Grid, IconButton, TextField, Typography } from "@mui/material"
+import { useRef } from "react"
 import { useEffect, useMemo } from "react"
 import { useDispatch, useSelector } from "react-redux"
+import Swal from "sweetalert2"
+import 'sweetalert2/dist/sweetalert2.css'
+
 import { useForm } from "../../hooks"
 import { setActiveNote } from "../../store/journal/journalSlice"
-import { startSaveNote } from "../../store/journal/thunks"
+import { startDeletingNote, startSaveNote, startUploadingFiles } from "../../store/journal/thunks"
 import { ImageGallery } from "../components/ImageGallery"
 
 export const NoteView = () => {
 
     const dispatch = useDispatch()
 
-    const { activeNote } = useSelector(state => state.journal)
+    const { activeNote, messageSaved, isSaving } = useSelector(state => state.journal)
 
     const { body, title, date, onInputChange, formState } = useForm(activeNote)
 
+
     const dateString = useMemo(() => {
-        const newDate = new Date( date );
+        const newDate = new Date(date);
         return newDate.toUTCString();
     }, [date])
 
+
+    const fileInputRef = useRef();
+
+
     useEffect(() => {
-      dispatch(setActiveNote(formState))
-    
+        dispatch(setActiveNote(formState))
+
     }, [formState])
-    
+
+
+
+    useEffect(() => {
+        if (messageSaved.length > 0) {
+            Swal.fire('Nota actualizada', messageSaved, 'success')
+        }
+    }, [messageSaved])
+
+
 
     const onSaveNote = () => {
         dispatch(startSaveNote());
     }
 
+
+    const onFileInputchange = ({ target }) => {
+        if (target.files === 0) return;
+        dispatch(startUploadingFiles(target.files))
+
+    }
+
+    const onDelete = () => {
+        dispatch(startDeletingNote())
+    }
+
+
     return (
         <Grid
             container
-            direction='row' 
+            direction='row'
             justifyContent='space-between'
             sx={{ mb: 1 }}
             className='animate__animated animate__fadeIn animate__faster'
@@ -43,10 +72,31 @@ export const NoteView = () => {
                 <Typography fontSize={39} fontWeight='light'>{dateString}</Typography>
             </Grid>
             <Grid item>
-                <Button 
-                onClick={onSaveNote}
-                color='primary' 
-                sx={{ padding: 2 }} >
+
+                <input
+                    type="file"
+                    id="input"
+                    multiple
+                    ref={fileInputRef}
+                    onChange={onFileInputchange}
+                    style={{ display: 'none' }}
+                />
+                <IconButton
+                    color="primary"
+                    disabled={isSaving}
+                    onClick={() => fileInputRef.current.click()}
+                >
+                    <UploadOutlined
+                        color="primary"
+                        disabled={isSaving}
+                    />
+                </IconButton>
+
+                <Button
+                    disabled={isSaving}
+                    onClick={onSaveNote}
+                    color='primary'
+                    sx={{ padding: 2 }} >
                     <SaveOutlined sx={{ fontSize: 39, mr: 1 }} />
                     Guardar
                 </Button>
@@ -77,7 +127,20 @@ export const NoteView = () => {
                 />
             </Grid>
 
-            <ImageGallery />
+            <Grid container justifyContent='end'>
+                <Button
+                    onClick={onDelete}
+                    sx={{ mt: 2 }}
+                    color='error'
+                >
+                    <DeleteOutline />
+                    Borrar
+                </Button>
+            </Grid>
+
+            <ImageGallery
+                images={activeNote.imageUrls}
+            />
 
         </Grid>
 
