@@ -134,7 +134,7 @@ export const NoteView = () => {
                     color='error'
                 >
                     <DeleteOutline />
-                    Borrar
+                    Eliminar Nota
                 </Button>
             </Grid>
 
