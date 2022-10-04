@@ -12,7 +12,7 @@ export const initialState = {
 }
 
 export const authenticatedState = {
-    status: 'checking', //'checking','not-authenticatded' , 'authenticated'
+    status: 'authenticated', //'checking','not-authenticatded' , 'authenticated'
         uid: '123ABC',
         email: 'demo@gmail.com',
         displayName: 'Demo User',
@@ -21,7 +21,7 @@ export const authenticatedState = {
 }
 
 export const notAuthenticatedState = {
-    status: 'checking', //'checking','not-authenticatded' , 'authenticated'
+    status: 'not-authenticated', //'checking','not-authenticatded' , 'authenticated'
         uid: null,
         email: null,
         displayName: null,
