@@ -7,7 +7,7 @@ export const journalSlice = createSlice({
         messageSaved: '',
         notes: [],
         activeNote: null,
-        // active: {
+        // activeNote: {
         //     id: 'ABC123',
         //     title: '',
         //     body: '',
